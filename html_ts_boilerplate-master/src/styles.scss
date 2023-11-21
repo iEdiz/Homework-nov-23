@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Charmonman:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..144,300;16..144,400;16..144,500;16..144,600;16..144,700&display=swap');
 
 * {
   box-sizing: border-box;
@@ -6,7 +8,7 @@
 body {
   background-color: antiquewhite;
   margin: 0;
-  font-family: 'Shalimar', cursive;
+  font-family: 'Montagu Slab', serif;
   color: rgb(59, 58, 58);
 }
 
@@ -27,7 +29,7 @@ body {
   width: 100%;
   justify-content: center;
   align-items: flex-start;
-  padding: 0px 0px 20px 0px;
+  padding: 0px 0px 10px 0px;
   border: 2px solid black;
   border-radius: 40px;
   background-color: #f5c2ae;
@@ -55,22 +57,22 @@ body {
 }
 
 .releaseYear {
-  font-size: 15px;
+  font-size: 18px;
   margin: 20px 0 0 0;
   font-weight: 300;
 }
 
 .song__delete {
-  padding: 10px 20px;
-  max-width: 100px;
+  padding: 15px 25px;
+  max-width: 130px;
   width: 100%;
   border-radius: 10px;
   margin: 20px 0 0 15px;
   border: 3px solid rgb(59, 58, 58);;
   background-color: #fca17d;
   color: rgb(59, 58, 58);
-  font-family: 'Shalimar', cursive;
-  font-size: 15px;
+  font-family: cursive;
+  font-size: 20px;
   cursor: pointer;
 }
 
@@ -106,14 +108,16 @@ body {
 }
 
 .form__header {
-  margin: 0;
+  font-family: cursive;
   align-self: flex-start;
-  font-weight: 500;
-  font-size: 40px;
+  font-weight: 900;
+  font-size: 45px;
+  margin: 10px 0 0 0;
+  height: 70px;
 }
 
 .song__title, .song__releaseYear, .song__performer {
-  font-family: 'Shalimar', cursive;
+  font-family: cursive;
   border: 2px solid rgb(59, 58, 58);;
   border-radius: 10px;
   padding: 12px 10px;
@@ -124,7 +128,7 @@ body {
 }
 
 .song__description {
-  font-family: 'Shalimar', cursive;
+  font-family: cursive;
   border: 2px solid rgb(59, 58, 58);;
   border-radius: 20px;
   padding: 35px 10px;
@@ -163,4 +167,13 @@ body {
   border-radius: 39px 39px 0 0;
   margin: 0px;
   background-size: contain;
+  border: 1px solid rgb(59, 58, 58);
+}
+
+.createdAt {
+  font-size: 25px;
+  margin: 20px 0 0 0;
+  padding: 0 15px 0 15px;
+  align-self: flex-end;
+  font-family: 'Charmonman', cursive;
 }

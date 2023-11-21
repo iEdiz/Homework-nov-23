@@ -12,7 +12,7 @@ type Song = {
     image: string;
 }
 
-function chatimgset() {
+function getRandomImage() {
   // declare an array
   const randomImage = [];
 
@@ -35,6 +35,32 @@ function chatimgset() {
   return randomImage[number];
 }
 
+// Timer that display how long ago the card was made
+
+const timerBetweenCreaton = (time: Date) => {
+  const currentTime = new Date();
+  const nextTime = new Date(time);
+  const timeDifference = Number(currentTime) - Number(nextTime);
+
+  const seconds = Math.floor(timeDifference / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  let timeAgoPublished = '';
+
+  if (days > 0) {
+    timeAgoPublished = `Created ${days} days ago`;
+  } else if (hours > 0) {
+    timeAgoPublished = `Created ${hours} hours ago`;
+  } else if (minutes > 0) {
+    timeAgoPublished = `Created ${minutes} minutes ago`;
+  } else {
+    timeAgoPublished = `Created ${seconds} seconds ago`;
+  }
+  return timeAgoPublished;
+};
+
 const createSongCard = () => {
   const songs = axios.get<Song[]>('http://localhost:3004/songs');
 
@@ -42,16 +68,20 @@ const createSongCard = () => {
 
   songs.then(({ data }) => {
     data.forEach((song) => {
+      // Each song card gets their individual timer created inside a loop
+      const timeAgo = timerBetweenCreaton(new Date(song.createdAt));
+
       songWrapper.innerHTML += `
-            <div class="song">
-                <img src="${song.image}" alt="Song Image" class="images"/>
-                <h1 class="title">${song.name}</h1>
-                <h3 class="performer">${song.performer}</h3>
-                <h5 class="description">${song.description}</h5>
-                <h6 class="releaseYear">${song.releaseYear}</h6>
-                <button class="js-song-delete song__delete" data-song-id = "${song.id}">Delete</button>
-            </div>
-            `;
+              <div class="song">
+                  <img src="${song.image}" alt="Song Image" class="images"/>
+                  <h1 class="title">${song.name}</h1>
+                  <h3 class="performer">${song.performer}</h3>
+                  <h5 class="description">${song.description}</h5>
+                  <h6 class="releaseYear">${song.releaseYear}</h6>
+                  <button class="js-song-delete song__delete" data-song-id="${song.id}">Delete</button>
+                  <h6 class="createdAt">${timeAgo}</h6>
+              </div>
+              `;
     });
 
     const songDeleteButtons = document.querySelectorAll<HTMLButtonElement>('.js-song-delete');
@@ -92,7 +122,8 @@ songForm.addEventListener('submit', (event) => {
     performer: performerInputValue,
     description: descriptionInputValue,
     releaseYear: releaseYearInputValue,
-    image: chatimgset(),
+    image: getRandomImage(),
+    createdAt: new Date().toISOString(), // Use ISO format for createdAt commonly used by timestamps
   }).then(() => {
     songInput.value = '';
     performerInput.value = '';
