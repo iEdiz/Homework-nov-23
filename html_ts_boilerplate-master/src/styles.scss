@@ -33,6 +33,7 @@ body {
   border: 2px solid black;
   border-radius: 40px;
   background-color: #f5c2ae;
+  word-wrap: break-word;
 }
 
 .title, .performer, .description, .releaseYear {
@@ -62,21 +63,32 @@ body {
   font-weight: 300;
 }
 
+.song__buttons {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 20px;
+  padding: 0 15px 0 15px;
+}
+
 .song__delete {
   padding: 15px 25px;
-  max-width: 130px;
   width: 100%;
+  min-width: 120px;
   border-radius: 10px;
-  margin: 20px 0 0 15px;
+  margin: 20px 0 0 0px;
   border: 3px solid rgb(59, 58, 58);;
   background-color: #fca17d;
   color: rgb(59, 58, 58);
   font-family: cursive;
   font-size: 20px;
   cursor: pointer;
+  flex-basis: calc(50% - 10px);
 }
 
-.song__delete:hover, .song__add-button:hover {
+.song__delete:hover, .song__add-button:hover, .song__edit:hover {
   opacity: 0.8;
   transition: 0.3s;
 }
@@ -88,12 +100,34 @@ body {
   border: 3px solid #fca17d;
 }
 
+.song__edit {
+  padding: 15px 25px;
+  width: 100%;
+  min-width: 120px;
+  border-radius: 10px;
+  margin: 20px 0 0 0px;
+  border: 3px solid rgb(59, 58, 58);;
+  background-color: #f3bd6b;
+  color: rgb(59, 58, 58);
+  font-family: cursive;
+  font-size: 20px;
+  cursor: pointer;
+  flex-basis: calc(50% - 10px);
+}
+
+.song__edit:focus {
+  background-color: rgb(59, 58, 58);
+  color: #f3bd6b;;;
+  opacity: 1;
+  border: 3px solid #f3bd6b;
+}
+
 .form-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
   margin: 0;
+  gap: 20px;
 }
 
 .song-form {
@@ -108,7 +142,7 @@ body {
 }
 
 .form__header {
-  font-family: cursive;
+  font-family: 'Charmonman', cursive;
   align-self: flex-start;
   font-weight: 900;
   font-size: 45px;
@@ -176,4 +210,8 @@ body {
   padding: 0 15px 0 15px;
   align-self: flex-end;
   font-family: 'Charmonman', cursive;
+}
+
+.hidden {
+  display: none;
 }

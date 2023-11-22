@@ -40,6 +40,7 @@ function getRandomImage() {
 const timerBetweenCreaton = (time: Date) => {
   const currentTime = new Date();
   const nextTime = new Date(time);
+
   const timeDifference = Number(currentTime) - Number(nextTime);
 
   const seconds = Math.floor(timeDifference / 1000);
@@ -61,27 +62,74 @@ const timerBetweenCreaton = (time: Date) => {
   return timeAgoPublished;
 };
 
-const createSongCard = () => {
-  const songs = axios.get<Song[]>('http://localhost:3004/songs');
+const createSongCard = async () => {
+  try {
+    const { data } = await axios.get<Song[]>('http://localhost:3004/songs');
 
-  songWrapper.innerHTML = '';
+    songWrapper.innerHTML = '';
 
-  songs.then(({ data }) => {
     data.forEach((song) => {
-      // Each song card gets their individual timer created inside a loop
       const timeAgo = timerBetweenCreaton(new Date(song.createdAt));
 
       songWrapper.innerHTML += `
-              <div class="song">
-                  <img src="${song.image}" alt="Song Image" class="images"/>
-                  <h1 class="title">${song.name}</h1>
-                  <h3 class="performer">${song.performer}</h3>
-                  <h5 class="description">${song.description}</h5>
-                  <h6 class="releaseYear">${song.releaseYear}</h6>
-                  <button class="js-song-delete song__delete" data-song-id="${song.id}">Delete</button>
-                  <h6 class="createdAt">${timeAgo}</h6>
-              </div>
-              `;
+        <div class="song">
+          <img src="${song.image}" alt="Song Image" class="images"/>
+          <h1 class="title">${song.name}</h1>
+          <h3 class="performer">${song.performer}</h3>
+          <h5 class="description">${song.description}</h5>
+          <h6 class="releaseYear">${song.releaseYear}</h6>
+          <div class="song__buttons">
+            <button class="js-song-delete song__delete" data-song-id="${song.id}">Delete</button>
+            <button class="js-song-edit song__edit" data-song-id="${song.id}">Edit</button>
+          </div>
+          <h6 class="createdAt">${timeAgo}</h6>
+        </div>
+      `;
+    });
+
+    const songEditButton = document.querySelectorAll<HTMLButtonElement>('.js-song-edit');
+    const editForm = document.querySelector('.js-song-edit-form');
+
+    const songEditInput = editForm.querySelector<HTMLInputElement>('input[name="song__edit"]');
+    const performerEditInput = editForm.querySelector<HTMLInputElement>('input[name="performer__edit"]');
+    const descriptionEditInput = editForm.querySelector<HTMLInputElement>('input[name="description__edit"]');
+    const releaseYearEditInput = editForm.querySelector<HTMLInputElement>('input[name="releaseYear__edit"]');
+
+    editForm.classList.add('hidden');
+
+    songEditButton.forEach((editButton) => {
+      editButton.addEventListener('click', () => {
+        const { songId } = editButton.dataset;
+
+        editForm.classList.remove('hidden');
+
+        editForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const songEditInputValue = songEditInput.value;
+          const performerEdiInputValue = performerEditInput.value;
+          const descriptionEditInputValue = descriptionEditInput.value;
+          const releaseYearEditInputValue = releaseYearEditInput.value;
+
+          axios.put(`http://localhost:3004/songs/${songId}`, {
+            name: songEditInputValue,
+            performer: performerEdiInputValue,
+            description: descriptionEditInputValue,
+            releaseYear: releaseYearEditInputValue,
+            image: getRandomImage(),
+            createdAt: new Date().toISOString(),
+          }).then(() => {
+            editForm.classList.add('hidden');
+
+            createSongCard();
+
+            songEditInput.value = '';
+            performerEditInput.value = '';
+            descriptionEditInput.value = '';
+            releaseYearEditInput.value = '';
+          });
+        });
+      });
     });
 
     const songDeleteButtons = document.querySelectorAll<HTMLButtonElement>('.js-song-delete');
@@ -95,10 +143,10 @@ const createSongCard = () => {
         });
       });
     });
-  });
+  } catch (error) {
+    console.error('Error fetching songs:', error);
+  }
 };
-
-createSongCard();
 
 const songForm = document.querySelector('.js-song-form');
 
@@ -123,7 +171,7 @@ songForm.addEventListener('submit', (event) => {
     description: descriptionInputValue,
     releaseYear: releaseYearInputValue,
     image: getRandomImage(),
-    createdAt: new Date().toISOString(), // Use ISO format for createdAt commonly used by timestamps
+    createdAt: new Date().toISOString(),
   }).then(() => {
     songInput.value = '';
     performerInput.value = '';
@@ -133,3 +181,5 @@ songForm.addEventListener('submit', (event) => {
     createSongCard();
   });
 });
+
+createSongCard();
