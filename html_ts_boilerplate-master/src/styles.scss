@@ -88,7 +88,7 @@ body {
   flex-basis: calc(50% - 10px);
 }
 
-.song__delete:hover, .song__add-button:hover, .song__edit:hover {
+.song__delete:hover, .song__add-button:hover, .song__edit:hover, .song__edit-button:hover {
   opacity: 0.8;
   transition: 0.3s;
 }
@@ -186,6 +186,29 @@ body {
   font-weight: bold;
   cursor: pointer;
   align-self: flex-end;
+}
+
+.song__edit-button {
+  padding: 15px 20px;
+  max-width: 130px;
+  width: 100%;
+  border-radius: 10px;
+  margin: 0;
+  border: 3px solid rgb(59, 58, 58);;
+  background-color: #A2A3C7;
+  color: rgb(59, 58, 58);
+  font-family: 'Shalimar', cursive;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.song__edit-button:focus {
+  background-color: rgb(59, 58, 58);
+  color: #A2A3C7;
+  opacity: 1;
+  border: 3px solid #A2A3C7;
 }
 
 .song__add-button:focus {

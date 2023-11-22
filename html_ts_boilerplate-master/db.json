@@ -10,12 +10,12 @@
       "id": 1
     },
     {
-      "name": "dasd",
-      "performer": "asd",
-      "description": "asd",
-      "releaseYear": "asd",
-      "image": "assets/images/szymon-fischer-vyNBFUbSsbs-unsplash.jpg",
-      "createdAt": "2023-11-22T16:57:47.129Z",
+      "name": "Rivendell",
+      "performer": "Celestial Aeon Project, Everrune",
+      "description": "A little bit alarming, but at the same time peaceful",
+      "releaseYear": "2018.",
+      "image": "assets/images/kian-lem-pH_1KmQJ140-unsplash.jpg",
+      "createdAt": "2023-11-22T17:12:44.586Z",
       "id": 2
     }
   ]
