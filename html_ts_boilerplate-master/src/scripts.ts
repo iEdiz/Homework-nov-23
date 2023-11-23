@@ -1,6 +1,25 @@
 import axios, { Axios } from 'axios';
 
-const songWrapper = document.querySelector('.js-song-wrapper');
+const songWrapper = document.querySelector<HTMLDivElement>('.js-song-wrapper');
+
+// Toastify function
+
+const toastifyPopUp = (message: string) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  window.Toastify({
+    text: message,
+    duration: 3000,
+    newWindow: true,
+    close: true,
+    gravity: 'top', // `top` or `bottom`
+    position: 'right', // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      background: 'linear-gradient(to right, #42275a, #734b6d)',
+    },
+  }).showToast();
+};
 
 // Declare new type, give type to each parameter.
 
@@ -55,10 +74,16 @@ const timerBetweenCreaton = (time: Date) => {
   let timeAgoPublished = '';
 
   // Display either days, hours, minutes or seconds, depending on how much time has passed
-  if (days > 0) {
+  if (days === 1) {
+    timeAgoPublished = `Created ${days} day ago`;
+  } else if (days > 0) {
     timeAgoPublished = `Created ${days} days ago`;
+  } else if (hours === 1) {
+    timeAgoPublished = `Created ${hours} hour ago`;
   } else if (hours > 0) {
     timeAgoPublished = `Created ${hours} hours ago`;
+  } else if (minutes === 1) {
+    timeAgoPublished = `Created ${minutes} minute ago`;
   } else if (minutes > 0) {
     timeAgoPublished = `Created ${minutes} minutes ago`;
   } else {
@@ -135,6 +160,7 @@ const createSongCard = async () => {
             editForm.classList.add('hidden'); // Add the hidden class back, so the edit form disappears
 
             // Call the cards again, so no reload is needed
+            toastifyPopUp('Song card edited succesfully');
             createSongCard();
 
             // But every value to blank, so that the values inserted don't save
@@ -158,6 +184,7 @@ const createSongCard = async () => {
         // Use axios DELETE to delete the current card
         axios.delete(`http://localhost:3004/songs/${songId}`).then(() => {
           createSongCard(); // Call song cards, so reload isn't needed
+          toastifyPopUp('Song card was deleted');
         });
       });
     });
@@ -204,6 +231,7 @@ songForm.addEventListener('submit', (event) => {
 
     // Call all song cards, so reload isn't needed
     createSongCard();
+    toastifyPopUp('Song card has been created');
   });
 });
 
